@@ -15,15 +15,19 @@ def index(request):
 			return render(request,"index.html",{"error":"用户密码错误"})
 		else:
 			auth.login(request,user)
-			return HttpResponseRedirect("/manage/")
+			return HttpResponseRedirect("/project/")
 	return render(request,'index.html')
 	#return HttpResponse("Hello, world.You are at the polls index.")
 # Create your views here.
-
+#登录成功,默认项目管理页
 @login_required
-def manage(request):
-	return render(request,"manage.html")
+def project_manage(request):
+	return render(request, "project.html")
 
+#模块管理页
+@login_required
+def module_manage(request):
+	return render(request, "module.html")
 @login_required
 def logout(request):
 	auth.logout(request)#删除服务器保存的session

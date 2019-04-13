@@ -21,7 +21,8 @@ urlpatterns = [
     url('polls/',include('polls.urls')),
     url(r'^admin/', admin.site.urls),
     url('index/',views.index),
-    url('manage/',views.manage),
+    url('project/',views.project_manage),
+    url('module/',views.module_manage),
     url('logout/',views.logout),
     url('', views.index),
 
