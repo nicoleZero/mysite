@@ -15,15 +15,25 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from polls import views
+from polls.views import login_views
+from polls.views import project_views
+from polls.views import module_views
 
 urlpatterns = [
-    url('polls/',include('polls.urls')),
+    #url('polls/',include('polls.urls')),
+
     url(r'^admin/', admin.site.urls),
-    url('index/',views.index),
-    url('project/',views.project_manage),
-    url('module/',views.module_manage),
-    url('logout/',views.logout),
-    url('', views.index),
+    url('index/',login_views.index),
+    #project管理
+
+    url(r'project/add_project/',project_views.add_project),
+    url(r'project/modify_project/', project_views.modify_project),
+    url(r'project/delete_project/',project_views.delete_project),
+    url('project/',project_views.project_manage),
+
+
+    url('module/',module_views.module_manage),
+    url('logout/',login_views.logout),
+    url('', login_views.index),
 
 ]
