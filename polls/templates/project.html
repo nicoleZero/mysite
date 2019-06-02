@@ -72,7 +72,7 @@
                   </a>
               </li>
 
-            <li><a href="#">用例管理</a></li>
+            <li><a href="/testcase/">用例管理</a></li>
           </ul>
           <ul class="nav nav-sidebar">
             <li><a href="">任务管理</a></li>
@@ -118,7 +118,7 @@
                         <i class="glyphicon glyphicon-pencil"></i>
                         </a>
                     </td>
-                    <td><a href="/project/delete_project/" style="height: 27px;width:46px">
+                    <td><a href="/project/delete_project/{{  project.id  }}/" style="height: 27px;width:46px">
                         <i class="glyphicon glyphicon-trash"></i>
                         </a>
                     </td>
@@ -173,48 +173,25 @@
             <!--编辑内容-->
             {% if type == "modify" %}
                 <h4 class="sub-header">编辑项目</h4>
-                <form class="form-horizontal" method="post" action="/project/add_project/">
-                <div class="control-group">
-                    <label class="control-label">名称</label>
-                    <div class="controls">
-                    <input type="text" name="name" class="input-xlarge">
-                    <span style="color: red">{{ name_error }}</span>
-                    </div>
-
-                <div class="control-group">
-                    <label class="control-label">描述</label>
-                    <div class="controls">
-                        <div class="textarea">
-                            <textarea name="describe" style="width:178px"> </textarea>
-                        </div>
-                    </div>
-                </div>
-
-            <div class="control-group">
-          <label class="control-label">状态</label>
-          <div class="controls" style="height: 30px;">
-            <label class="radio inline" style="left: 20px; float: left;">
-              <input type="radio" value="1" checked="checked" name="status">
-              开启
-            </label>
-            <label class="radio inline" style="left: 80px; float: left;">
-              <input type="radio" value="0" name="status">
-              关闭
-            </label>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <div class="controls">
-            <button class="btn btn-success">保存</button>
-          </div>
-        </div>
+                <form action="/project/modify_project/{{ id }}/" method="post" >
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
+      </form>
+      {% endif %}
+            <!--删除内容-->
+            {% if type == "delete" %}
+                <h4 class="sub-header">删除项目</h4>
+                <form action="/project/delete_project/{{ id }}/" method="post" >
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
       </form>
       {% endif %}
 
         </div>
       </div>
     </div>
+
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
