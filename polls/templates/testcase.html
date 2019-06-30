@@ -82,115 +82,123 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <!--项目列表展示-->
-            {%  if type == "list" %}
-                <h4 class="sub-header">项目列表
-          <button type="button" class="btn btn-sm btn-primary"
-                  style="float: right;"
-                  onclick="location.href='add_project/'">新建</button>
+          <!--测试用例展示-->
+            {%  if type == "debug" %}
+                <h4 class="sub-header">Postman
               </h4>
-            <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>名称</th>
-                  <th>描述</th>
-                  <th>状态</th>
-                  <th>创建时间</th>
-                    <th>操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for project in projects%}
-                <tr>
-                  <td>{{  project.id  }}</td>
-                  <td>{{  project.name  }}</td>
-                  <td>{{  project.describe  }}</td>
-                  <td>
-                      {% if project.status == True %}
-                        <span>开启</span>
-                      {% else %}
-                        <span>关闭</span>
-                      {% endif %}
-                  </td>
-                  <td>{{  project.create_time | date:"Y-m-d H:i:s"  }}</td>
-                    <td><a href="/project/modify_project/{{  project.id  }}/" style="height: 40px;width: 46px">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                    </td>
-                    <td><a href="/project/delete_project/{{  project.id  }}/" style="height: 27px;width:46px">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        </a>
-                    </td>
+                <!--增加下拉菜单-->
+                    <!--下拉菜单-->
+		            <!--div class="row">
+			            <div class="col-lg-6">
+				            <div class="input-group">
+					            <div class="input-group-btn">
+						            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							请求
+							            <span class="caret"></span>
+						            </button>
+						            <ul class="dropdown-menu">
+                                        <li><a href="#">GET</a></li>
+							            <li><a href="#">POST</a></li>
+							            <li><a href="#">PUT</a></li>
+                                        <li><a href="#">DELETE</a></li>
+						            </ul>
+					        </div><!-- /btn-group -->
+					<!--input type="text" class="form-control">
 
-                {%  endfor %}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-            {% endif %}
-            <!--添加内容-->
-            {% if type == "add" %}
-                <h4 class="sub-header">添加项目</h4>
-                <form class="form-horizontal" method="post" action="/project/add_project/">
-                <div class="control-group">
-                    <label class="control-label">名称</label>
-                    <div class="controls">
-                    <input type="text" name="name" class="input-xlarge">
-                    <span style="color: red">{{ name_error }}</span>
-                    </div>
+				</div><!-- /input-group -->
 
-                <div class="control-group">
-                    <label class="control-label">描述</label>
-                    <div class="controls">
-                        <div class="textarea">
-                            <textarea name="describe" style="width:178px"> </textarea>
-                        </div>
+			<!-- /.col-lg-6 -->
+        <!--增加请求-->
+		<div  class="input-group">
+            <span class="input-group-addon">*URL</span>
+            <input id="URL" type="text" class="form-control">
+        </div>
+                <br>
+                    <!--增加请求方法-->
+                <div  style="margin-top:10px;">
+                    <label>*请求方法*</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="GET" value="GET" checked>GET
+                        </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="POST" value="POST">POST
+                        </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="PUT" value="PUT">PUT
+                        </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="req_type" id="DELETE" value="DELETE">DELETE
+                        </label>
                     </div>
+                    <!--增加header-->
+                <div class="input-group">
+                    <span class="input-group-addon">header</span>
+                    <input id="header" type="text" class="form-control" placeholder="header">
+
                 </div>
 
-            <div class="control-group">
-          <label class="control-label">状态</label>
-          <div class="controls" style="height: 30px;">
-            <label class="radio inline" style="left: 20px; float: left;">
-              <input type="radio" value="1" checked="checked" name="status">
-              开启
-            </label>
-            <label class="radio inline" style="left: 80px; float: left;">
-              <input type="radio" value="0" name="status">
-              关闭
-            </label>
-          </div>
-        </div>
+                    <!--增加参数-->
+                    <div  style="margin-top:10px;">
+                        <label>*参数类型:</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="par_type" id="form-data" value="form-data" checked>form-data
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="par_type" id="json" value="json">json
+                        </label>
+                        </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">参数</span>
+                        <input id="parameter" type="text" class="form-control">
+                    </div>
+                    <p style="color:#8B8989">说明:以字典的方式设置参数如:{"id":1 ,"name":"名称"}</p>
 
-        <div class="control-group">
-          <div class="controls">
-            <button class="btn btn-success">保存</button>
-          </div>
-        </div>
-      </form>
-      {% endif %}
-            <!--编辑内容-->
-            {% if type == "modify" %}
-                <h4 class="sub-header">编辑项目</h4>
-                <form action="/project/modify_project/{{ id }}/" method="post" >
-                    {{ form.as_p }}
-                    <input type="submit" value="Submit">
-      </form>
-      {% endif %}
-            <!--删除内容-->
-            {% if type == "delete" %}
-                <h4 class="sub-header">删除项目</h4>
-                <form action="/project/delete_project/{{ id }}/" method="post" >
-                    {{ form.as_p }}
-                    <input type="submit" value="Submit">
-      </form>
-      {% endif %}
+                <div style="margin-top:10px;">
+                <button type="button" class="btn btn-sm btn-primary" style="float: right;"  onclick=jsFun()>发送</button>
+                </div>
+                <div style="margin-top: 30px;">
+                    <p>返回结果</p>
+                    <textarea id="result" class="form-control" style="height: 250px;"  row="10" name="textarea"> </textarea>
+                </div>
+            {% endif %}
 
         </div>
       </div>
     </div>
+
+            <!--执行脚本-->
+            <script src="https://cdn.bootscss.com/jquery/3.3.1/jquery.min.js">
+            </script>
+        <script type="text/javascript">
+
+            function jsFun(){
+                var url = $("#URL").val();
+                var method = $('input[name="req_type"]:checked').val();
+                var header = $("#header").val();
+                var type = $('input[name="par_type"]:checked').val();
+                var parameter = $("#parameter").val();
+                if(url ==""){
+                    window.alert("URL不能为空!");
+                    return;
+                }
+                window.alert("parameter:"+parameter);
+                $.post("/testcase/debug",
+                    {url:url,
+                    method:method,
+                    header:header,
+                    type:type,
+                    parameter:parameter,
+                    },
+                    function(data, status){
+                    alert("数据:"+data.result);
+                    console.log("返回的结果:",data.result);
+                    document.querySelector("#result").value = data.result;
+                    });
+            }
+        </script>
+
+
+
 
 
 
