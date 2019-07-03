@@ -151,14 +151,32 @@
                         <span class="input-group-addon">参数</span>
                         <input id="parameter" type="text" class="form-control">
                     </div>
-                    <p style="color:#8B8989">说明:以字典的方式设置参数如:{"id":1 ,"name":"名称"}</p>
+                    <p style="color:#8B8989">说明:以字典的方式设置参数如:{"id":1,"name":"名称"}</p>
 
                 <div style="margin-top:10px;">
-                <button type="button" class="btn btn-sm btn-primary" style="float: right;"  onclick=jsFun()>发送</button>
+                <button type="button" class="btn btn-sm btn-primary" style="float: right;"  onclick=sendFun()>发送</button>
                 </div>
                 <div style="margin-top: 30px;">
                     <p>返回结果</p>
                     <textarea id="result" class="form-control" style="height: 250px;"  row="10" name="textarea"> </textarea>
+                </div>
+
+
+                <div style="margin-top:10px;">
+                <button type="button" class="btn btn-sm btn-primary" style="float: right;" onclick=assertFun()>断言</button>
+                </div>
+                <div  style="margin-top:10px;">
+                        <label>*匹配类型:</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="re_type" id="include" value="form-data" checked>包含
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="re_type" id="equal" value="json">等于
+                        </label>
+                        </div>
+                <div style="margin-top: 30px;">
+                    <p>断言</p>
+                    <textarea id="assert_result" class="form-control" style="height: 50px;"  row="10" name="textarea"> </textarea>
                 </div>
             {% endif %}
 
@@ -170,8 +188,8 @@
             <script src="https://cdn.bootscss.com/jquery/3.3.1/jquery.min.js">
             </script>
         <script type="text/javascript">
-
-            function jsFun(){
+            //发送方法
+            function sendFun(){
                 var url = $("#URL").val();
                 var method = $('input[name="req_type"]:checked').val();
                 var header = $("#header").val();
@@ -194,7 +212,32 @@
                     console.log("返回的结果:",data.result);
                     document.querySelector("#result").value = data.result;
                     });
-            }
+            };
+            //断言方法
+            function assertFun(){
+              var result_text = $("#result").val();
+              var assert_text = $("#assert_result").val();
+              var re_type = $('input[name="re_type"]:checked').val();
+              console.log("得到的结果",result_text);
+              console.log("断言",assert_text);
+              if (result_text === ""||assert_text === ""){
+                  window.alert("要断言的文本不能为空!");
+                  return;
+              }
+              //接口返回处理
+              $.post("/testcase/assert",
+               {
+                   result:result_text,
+                   assert:assert_text,
+                   retype:re_type,
+               },
+                  function(data, status){
+                    alert("数据:"+data.result);
+                    console.log("返回的结果:",data.result);
+
+                    //document.querySelector("#result").value = data.result;
+                    });
+            };
         </script>
 
 
