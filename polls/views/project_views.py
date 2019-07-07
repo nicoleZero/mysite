@@ -1,8 +1,9 @@
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from polls.models.project import Project
+
 from polls.forms import ProjectForm
 
 @login_required
@@ -101,3 +102,22 @@ def delete_project(request,pid):
 			p.save()
 		return HttpResponseRedirect("/project/")
 		"""
+
+def get_project_list(request):
+	"""
+	获取项目列表
+	"""
+	if request.method == 'GET':
+		projects = Project.objects.all()
+		project_list = []
+		for pro in projects:
+			project_dict={
+				"id":pro.id,
+				"name":pro.name
+			}
+			project_list.append(project_dict)
+			#project_list[pro.id] = pro.name
+			#project_list.append(pro.name)
+		return JsonResponse({"success":"true","data":project_list})
+	else:
+		return JsonResponse({"success":"false","data":"请求方法错误!"})

@@ -31,6 +31,7 @@ urlpatterns = [
     path(r'project/add_project/',project_views.add_project),
     path(r'project/delete_project/<int:pid>/',project_views.delete_project),
     path(r'project/modify_project/<int:pid>/',project_views.modify_project),
+    path(r'project/get_project_list/', project_views.get_project_list),
 
     path('module/',module_views.module_manage),
     path(r'module/add_module/', module_views.add_module),
@@ -38,6 +39,7 @@ urlpatterns = [
     path(r'module/modify_module/<int:pid>/', module_views.modify_module),
 
     path('testcase/',include('testcase.urls')),
+
 
     path('logout/',login_views.logout),
     path('', login_views.index),

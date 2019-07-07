@@ -66,6 +66,7 @@ def testcase_assert(request):
 		#后端增加断言和结果不能为空的校验
 		if result_text == "" or assert_text == "":
 			return JsonResponse({"result":"断言的文本不能为空!"})
+		print("asserttype",assert_type)
 		if assert_type == "include":
 			if assert_text in result_text:
 				return JsonResponse({"result":"断言成功!"})

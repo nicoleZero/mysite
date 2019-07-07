@@ -11,7 +11,8 @@
     <link rel="icon" href="../../favicon.ico">
 
     <title>测试平台</title>
-
+      {%  load static  %}
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
@@ -28,7 +29,13 @@
     <!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
+
     <![endif]-->
+
+      <script type="text/javascript" src="{% static "js/myCase.js" %}"></script>
+
+
   </head>
 
   <body>
@@ -168,15 +175,29 @@
                 <div  style="margin-top:10px;">
                         <label>*匹配类型:</label>
                         <label class="radio-inline">
-                            <input type="radio" name="re_type" id="include" value="form-data" checked>包含
+                            <input type="radio" name="re_type" id="include" value="include" checked>包含
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="re_type" id="equal" value="json">等于
+                            <input type="radio" name="re_type" id="equal" value="equal">等于
                         </label>
                         </div>
                 <div style="margin-top: 30px;">
                     <p>断言</p>
                     <textarea id="assert_result" class="form-control" style="height: 50px;"  row="10" name="textarea"> </textarea>
+                </div>
+                <!--增加二级联动-->
+                <div style="margin-top: 30px;">
+                <label>项目</label>
+                    <select class="selectpicker" id="project_name">
+                    </select>
+
+                <label>模块</label>
+                    <select class="selectpicker" id="module_name">
+                        <option>Mustart</option>
+                        <option>f</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-primary" style="float: right;"  >保存</button>
+
                 </div>
             {% endif %}
 
@@ -185,9 +206,11 @@
     </div>
 
             <!--执行脚本-->
-            <script src="https://cdn.bootscss.com/jquery/3.3.1/jquery.min.js">
-            </script>
+
+
         <script type="text/javascript">
+            //调用项目初始化
+         ProjectInit('project_name');
             //发送方法
             function sendFun(){
                 var url = $("#URL").val();
@@ -220,7 +243,7 @@
               var re_type = $('input[name="re_type"]:checked').val();
               console.log("得到的结果",result_text);
               console.log("断言",assert_text);
-              if (result_text === ""||assert_text === ""){
+              if (result_text.replace(/(^\s*)|(\s*$)/g, "").length ==0 ||assert_text.replace(/(^\s*)|(\s*$)/g, "").length ==0){
                   window.alert("要断言的文本不能为空!");
                   return;
               }
