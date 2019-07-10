@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+  <>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,9 @@
 
     <title>测试平台</title>
       {%  load static  %}
-      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+      <!--script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+      <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,6 +23,7 @@
 
     <!-- Custom styles for this template -->
     <link href="https://v3.bootcss.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 
@@ -33,7 +36,13 @@
 
     <![endif]-->
 
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+
       <script type="text/javascript" src="{% static "js/myCase.js" %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+
 
 
   </head>
@@ -193,8 +202,6 @@
 
                 <label>模块</label>
                     <select class="selectpicker" id="module_name">
-                        <option>Mustart</option>
-                        <option>f</option>
                     </select>
                     <button type="button" class="btn btn-sm btn-primary" style="float: right;"  >保存</button>
 
@@ -207,10 +214,17 @@
 
             <!--执行脚本-->
 
-
         <script type="text/javascript">
             //调用项目初始化
          ProjectInit('project_name');
+         //监听项目列表的变化
+            $("#project_name").change(function()
+            {
+                //window.alert("项目选项变化了");
+                let project_id = $(this).children('option:selected').val();
+                console.log("选择的项目id",project_id);
+                ModuleInit('module_name',project_id);
+            });
             //发送方法
             function sendFun(){
                 var url = $("#URL").val();
@@ -271,7 +285,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!--script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script-->
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->

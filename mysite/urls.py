@@ -37,6 +37,7 @@ urlpatterns = [
     path(r'module/add_module/', module_views.add_module),
     path(r'module/delete_module/<int:pid>/', module_views.delete_module),
     path(r'module/modify_module/<int:pid>/', module_views.modify_module),
+    path(r'module/get_module_list/', module_views.get_module_list),
 
     path('testcase/',include('testcase.urls')),
 
