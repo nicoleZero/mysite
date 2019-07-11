@@ -198,12 +198,17 @@
                 <div style="margin-top: 30px;">
                 <label>项目</label>
                     <select class="selectpicker" id="project_name">
+                        <option>---请选择---</option>
                     </select>
 
                 <label>模块</label>
                     <select class="selectpicker" id="module_name">
                     </select>
-                    <button type="button" class="btn btn-sm btn-primary" style="float: right;"  >保存</button>
+                    <div  class="input-group" style="top:10px">
+                        <span class="input-group-addon">用例名称</span>
+                            <input id="case_name" type="text" class="form-control">
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" style="float: right;margin-top: 20px;"  onclick=saveFun() >保存</button>
 
                 </div>
             {% endif %}
@@ -275,8 +280,50 @@
                     //document.querySelector("#result").value = data.result;
                     });
             };
-        </script>
+            //保存测试用例的方法
+            function saveFun(){
+                var url = $("#URL").val(); //请求地址
+                var method = $('input[name="req_type"]:checked').val(); //请求方法
+                var header = $("#header").val();//请求头
+                var type = $('input[name="par_type"]:checked').val();//参数类型
+                var parameter = $("#parameter").val();//参数
 
+
+                var result = $("#result").val();//返回结果
+                var assert_type = $("#re_type").val();//匹配类型
+                var assert_text = $("#assert_result").val();//断言
+                var module_id = $('select[id="module_name"]').val();//模块
+                var case_name = $("#case_name").val();//用例名称
+                console.log("选择的模块",module_id);
+                console.log("选择的名称",case_name);
+                console.log("method",method)
+                if (url == ""){
+                    window.alert("URL不能为空");
+                    return;
+                }else if( case_name == ""){
+                    window.alert("用例名称不能为空");
+                    return;
+                }else if(assert_type === ""||assert_text == ""){
+                    window.alert("断言的类型或数据不能为空!");
+                    return;
+                };
+                $.post("/testcase/testcase_save_case",{
+                    url:url,
+                    method:method,
+                    header:header,
+                    parameter_type:type,
+                    parameter_body:parameter,
+                    result:result,
+                    assert_text:assert_text,
+                    assert_type:assert_type,
+                    module_id:module_id,
+                    case_name:case_name,
+                },function(data,status){
+                    window.alert("数据",data)
+                })
+            }
+        </script>
+id
 
 
 
